@@ -1,0 +1,11 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'us-central1-docker.pkg.dev/cloud-k8s-assignment-454201/my-repo/container1:latest', '.']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'us-central1-docker.pkg.dev/cloud-k8s-assignment-454201/my-repo/container1:latest']
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['container', 'clusters', 'get-credentials', 'my-gke-cluster', '--region', 'us-central1']
+- name: 'gcr.io/cloud-builders/kubectl'
+  args: ['set', 'image', 'deployment/container1', 'container1=us-central1-docker.pkg.dev/cloud-k8s-assignment-454201/my-repo/container1:latest']
+images:
+- 'us-central1-docker.pkg.dev/cloud-k8s-assignment-454201/my-repo/container1:latest'
