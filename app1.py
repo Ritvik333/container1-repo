@@ -9,7 +9,7 @@ CONTAINER_2_URL = "http://container2-service:7000/calculate"
 
 @app.route('/store-file', methods=['POST'])
 def store_file():
-    print('test_trigger again')
+    print('test_trigger again', file=sys.stdout, flush=True)
     data = request.get_json()
     if not data or 'file' not in data or 'data' not in data:
         return jsonify({"file": None, "error": "Invalid JSON input."}), 400
@@ -19,6 +19,7 @@ def store_file():
     file_path = os.path.join('/ritvik_PV_dir', filename)
 
     try:
+        file_data = file_data.replace(', ',',')
         with open(file_path, 'w') as f:
             f.write(file_data)
         return jsonify({"file": filename, "message": "Success."}), 200
