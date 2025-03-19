@@ -9,7 +9,7 @@ CONTAINER_2_URL = "http://container2-service:7000/calculate"
 
 @app.route('/store-file', methods=['POST'])
 def store_file():
-    print('test_trigger again', file=sys.stdout, flush=True)
+    print('test_trigger again')
     data = request.get_json()
     if not data or 'file' not in data or 'data' not in data:
         return jsonify({"file": None, "error": "Invalid JSON input."}), 400
