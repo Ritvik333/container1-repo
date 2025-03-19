@@ -5,7 +5,7 @@ import requests
 app = Flask(__name__)
 
 # Container 2 URL using Kubernetes service name
-CONTAINER_2_URL = "http://localhost:7000/calculate"
+CONTAINER_2_URL = "http://container2-service:7000/calculate"
 
 @app.route('/store-file', methods=['POST'])
 def store_file():
@@ -16,7 +16,7 @@ def store_file():
 
     filename = data['file']
     file_data = data['data']
-    file_path = "./" + filename
+    file_path = os.path.join('/ritvik_PV_dir', filename)
 
     try:
         file_data = file_data.replace(', ',',')
@@ -30,7 +30,7 @@ def store_file():
 @app.route('/calculate', methods=['POST'])
 def calculate():
     data = request.get_json()
-    print('data: ',data,file = "data.txt")
+    print('data: ',data)
     if not data or 'file' not in data or not data['file'] or 'product' not in data:
         return jsonify({"file": None, "error": "Invalid JSON input."}), 400
 
@@ -45,4 +45,4 @@ def calculate():
         return jsonify({"file": filename, "error": "Failed to communicate with Container 2."}), 500
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=6000, )
+    app.run(host="0.0.0.0", port=6000)
