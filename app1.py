@@ -65,7 +65,6 @@ def store_file():
 @app.route('/calculate', methods=['POST'])
 def calculate():
     data = request.get_json()
-    print('data: ',data)
     if not data or 'file' not in data or not data['file'] or 'product' not in data:
         return jsonify({"file": None, "error": "Invalid JSON input."}), 400
 
